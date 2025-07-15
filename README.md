@@ -83,7 +83,6 @@ output by pins VS1 and FLYBACK_DRV_1A for DC-DC Converter.
 * We are assuming here the fact that each Solar module can produce 180W of power supply we add the series and parallel plates according to the our need.
 
 ### DC-DC Converter:
-
 <img width="936" height="575" alt="image" src="https://github.com/user-attachments/assets/f1d7f5c2-58c9-4c86-be49-f28ab4bfe94d" />
 
 * On the primary side of the switching converter, IRFB4310 MOSFETs are utilized due to their advantageous characteristics, including a low R_DS-On (5.6mΩ), high V_DS (100V), and a current rating of 130A. These specifications are crucial for enhancing the efficiency of the DC/DC converter, facilitating the passage of up to 200W of power through this section.
@@ -93,7 +92,6 @@ output by pins VS1 and FLYBACK_DRV_1A for DC-DC Converter.
 * Furthermore, FUSE1 plays a pivotal role in isolating the converter section from the inverter section when independent testing of the converter section is required. This fuse acts as a protective measure, preventing potential damage to the converter or inverter components and ensuring safe operation during testing procedures.
 
 * Main Components & Mouser URLs:
-  
 * T1 & T2-->> Audio Transformers/Signal Transformers DA2032 Cap Charger For Linear
 * LT3750-->>> https://www.mouser.in/ProductDetail/Coilcraft/DA2032-ALD?qs=ZYnrCdKdyefv4mcPD%252BT0WQ%3D%3D
 * J1-->Fixed Terminal Blocks 3 POS SIDE ENT 3.5MM-->>https://www.mouser.in/ProductDetail/TE-Connectivity/1776275-3?qs=vnwGVgFuQiaG2mifqnUIBA%3D%3D
@@ -107,7 +105,176 @@ output by pins VS1 and FLYBACK_DRV_1A for DC-DC Converter.
 * In conjunction with the H-Bridge, the LCL filter (comprised of inductors L1 and L2, resistor R6, and capacitor C6) serves to refine the output waveform and mitigate harmonic distortions.
 * These components are meticulously selected and precisely tuned to optimize the performance of the microinverter, enhancing its overall efficiency and reliability. The utilization of the SIHP25N40D MOSFETs in the H-Bridge, coupled with the carefully designed LCL filter, underscores the meticulous engineering and attention to detail employed in the design of the microinverter.
 * Together, these components work harmoniously to ensure the seamless conversion of DC power from the solar panels into clean and reliable AC power for residential or commercial applications.
-* Main Components & Mouser URLs:
   
+* Main Components & Mouser URLs:
 * Q3,Q4,Q5,Q6 Transistors -->>> SIHP25N40D-GE3 -->> MOSFET 400V Vds 30V Vgs TO-220AB-->> https://www.mouser.in/ProductDetail/Vishay-Semiconductors/SIHP25N40D-GE3?qs=CJFgc%252B3p06hr07bri6UKRA%3D%3D
 
+### Grid Connection:
+<img width="1029" height="574" alt="image" src="https://github.com/user-attachments/assets/60359310-8f7a-4db8-8384-1bb8304d8616" />
+
+* The grid connection circuit facilitates the seamless integration or disconnection of the microinverter with/from the grid. This action is taken in the event that the microinverter is not functioning as intended or if abnormal conditions are detected on the grid.
+* A ST2-DC12V-F relay, under the control of the microcontroller and the grid current limiting circuitry, governs this process. The activation of the relay is indicated by LED2. To ensure the LED operates within safe parameters, resistor R7 limits the current flowing through it.
+* Additionally, a neon indicator bulb, LED3, serves to indicate the presence of high voltage (>60V) on the grid connection. LED3 shares the same series resistance of 150K as the neon indicator bulb across the DC link capacitor, represented by resistor R8.
+* FUSE2 and FUSE3 act as protective measures for the microinverter, ensuring its safety if more than 3A is drawn from the grid, which could occur due to a malfunction. The GRID_RLY_CTRL signal, originating from the overcurrent protection section and controlled by the microcontroller, triggers a MOSFET.
+* This MOSFET permits current flow from the secondary +12V rail through the relay coil, through the MOSFET, and into the ground. To safeguard the MOSFET from potential damage caused by voltage spikes resulting from the inductive load of the relay coil, a freewheeling diode, D3, has been incorporated.
+
+* Main Components and Mouser URLs:
+* U1-->> ST2-DC12V-F -->> General Purpose Relays 8A 12VDC DPST NON-LATCHING PCB -->> https://www.mouser.in/ProductDetail/Panasonic-Industrial-Devices/ST2- DC12V-F?qs=sEN%2FkO1EG6Y9qlX1q11jhg%3D%3D
+* J2-->> 1776275-3 -->> Fixed Terminal Blocks 3 POS SIDE ENT 3.5MM -->> https://www.mouser.in/ProductDetail/TE-Connectivity/1776275- 3?qs=vnwGVgFuQiaG2mifqnUIBA%3D%3D
+* D3-->> BAV70W -->> Diodes - General Purpose, Power, Switching Small Signal Diode, SOT-323, 100V, 0.17A, 150C -->>https://www.mouser.in/ProductDetail/Diotec-Semiconductor/BAV70W?qs=OlC7AqGiEDmR5SyZ9ehqwA%3D%3D
+* Q2-->>2N7002-->> MOSFET N-CHANNEL 60V 115mA -->> https://www.mouser.in/ProductDetail/onsemi- Fairchild/2N7002?qs=0dwsXDNhqlz66WJJhrTFjQ%3D%3D
+
+### PV Voltage Sense:
+<img width="1029" height="566" alt="image" src="https://github.com/user-attachments/assets/f801f593-f30c-4b66-a129-7c007a87812c" />
+
+* This voltage sensing circuit comprises several key features, including a voltage divider, an isolation amplifier, and voltage clamping mechanisms. Voltage division is achieved using two resistors, R3 and R1. The scaled-down voltage is set to 0.006 of the voltage at PV+, the PV voltage.
+* This scaling ensures that the maximum input voltage to the isolation amplifier, which is 150mV, falls within the specified voltage range of the amplifier input (250mV). An isolation amplifier, specifically the AMC1200SDUB, is utilized to maintain separation between the primary and secondary grounds of the circuit.
+* This isolation minimizes the introduction of noise into the voltage measurements. The output of the isolation amplifier, VPV_SEN, represents the voltage to be read by the microcontroller for measuring the PV voltage.
+* To protect the microcontroller, a Schottky diode array (D1) is employed, preventing VPV_SEN from exceeding the 0V to 3.3V range of the microcontroller's ADC.
+* Furthermore, additional capacitors have been strategically placed throughout the circuit to mitigate noise occurring on the amplifier's supply rails and inputs. Two test points, IN_VPVSEN and OUT_VPVSEN, are included to measure the voltage on each side of the amplifier.
+* Resistor R2 serves to limit the current flowing to the MCU in the event of an overvoltage condition on the voltage sense circuit. Capacitors C1-4 act as decoupling capacitors, effectively reducing noise in the circuit.
+* Main Components and Mouser URLs:
+* U4-->>AMC1200SDUBR-->>Isolation Amplifiers 4kV peak Iso Amp-->> https://www.mouser.in/ProductDetail/TexasInstruments/AMC1200SDUBR?qs=Nxfnlnd%252BiAcMKGpoVxsKlg%3D%3D
+* D4-->> BAT54S-->> Schottky Diodes & Rectifiers SOT23 0.2A 30V Schottky Dblr -->> https://www.mouser.in/ProductDetail/Rectron/BAT54S?qs=7pEAo90IqNGRiqD7TkybWA%3D%3D
+
+### PV Current Sense:
+<img width="1004" height="591" alt="image" src="https://github.com/user-attachments/assets/e4a1195c-4c23-4b60-afc4-70117dd6186f" />
+
+* To sense the amount of current coming from the PV module, the PV current measurement circuit in Figure 5.12 is utilized. The component responsible for current measurements is an ACS723, which is a Hall-effect, galvanically isolated current sensor.
+* The ACS723 outputs a voltage proportional to the amount of current passing through PV- and PGND_PRI, with the output voltage scaled by 100mV/A and centered at 2.5V when there is no current flowing. Capacitors C1 and C2 serve as decoupling capacitors to filter noise in the +5V_SEC and GND_SEC lines.
+* The op-amp circuit shown in Figure 5.13 is employed to scale the output voltage of the current sensor to within the range of the microcontroller ADC.
+* The first op-amp circuit removes the 2.5V bias introduced by the current sensor, while the second op-amp circuit scales the voltage to fit within the full range of the ADC. Using Rf = 24.9kΩ, Rin = 24.9kΩ, V2 = 2.5-3.5V, and V1 = 2.5V, the expected output voltage of the first op-amp falls between 0V and 1V.
+* For the second op-amp, with Rf = 4.87kΩ, Rin = 2.2kΩ, V2 = 0-1V, and V1 = 0V, the expected output ranges between 0V and 2.21V, serving as the input to IPV_SEN.
+
+* Main Component and Mouser URLs:
+* U3-->> ACS723LLCTR-20AB-T -->> Board Mount Current Sensors For New Designs Use ACS724/5 --> https://www.mouser.in/ProductDetail/Allegro-MicroSystems/ACS723LLCTR-20AB-T?qs=pUKx8fyJudDABYgIRXmUYg%3D%3D
+* IC2 & IC3-->> OPA2171AIDR -->> Operational Amplifiers - Op Amps 36V,Low Pwr,RRO,Gen Purp Op Amp --> https://www.mouser.in/ProductDetail/TexasInstruments/OPA2171AIDR?qs=dIQyq4nUG7Hi9afX%252B6ZUXg%3D%3D
+  
+### Flyback Gate Driver:
+<img width="990" height="593" alt="image" src="https://github.com/user-attachments/assets/d4290acb-b837-44cb-959a-4b34a29b05bd" />
+
+* The flyback gate driver comprises two major component sections:
+* An isolation IC and a gate driving IC. The circuit depicted the isolation circuit, which employs an ISO7240 isolation IC. This chip plays a crucial role in maintaining separation
+between the primary and secondary grounds while still transmitting the PWM signal to the gate driver.
+* To prevent noise from inadvertently triggering the outputs, pulldown resistors (R1- R4) are included on each input of the isolation IC, even for unused inputs. Additionally, resistors R5-R6 are utilized to limit current flowing to or from thePWM signal in the event of an overvoltage condition.
+* For the gate driving section, an SM72295 Photovoltaic Full Bridge Driver is employed. This IC boosts the voltage sent to the MOSFET gates in the flyback converter. It provides a +12V gate voltage with respect to the source of each MOSFET being driven, utilizing a bootstrap configuration to elevate the gate voltage of the clamping MOSFET with respect to that MOSFET source.
+* Pull-down resistors (R11-12) are utilized to prevent the PWM input pins on the SM72295 from floating, while resistors R13-14 serve to limit the current to or from the ISO7240 in case of an overvoltage condition.
+* Diodes D1-2 and resistors R7-10 are incorporated to decrease the turn-off time of the MOSFET, enhancing the overall efficiency and performance of the gate driver circuit.
+
+* Main Component and Mouser URLs:
+* U5-->> ISO7240CFDWR -->> Digital Isolators Quad 4/0.25Mbps Dig Iso Sel Failsafe -->> https://www.mouser.in/ProductDetail/TexasInstruments/ISO7240CFDWR?s=LDGDZb5k%2F%252B9YURJ0NK%252B%252BYg%3D%3D
+* IC9 -->> SM72295MA_NOPB -->> Gate Drivers Photovoltaic Full Bridge Dvr -->> https://www.mouser.in/ProductDetail/Texas-Instruments/SM72295MA-NOPB?qs=mnNhhHFJ6W1ijbLTaK03%2FQ%3D%3D
+
+### Inverter Gate Driver:
+<img width="1076" height="568" alt="image" src="https://github.com/user-attachments/assets/5dce7bf5-2ea1-4947-9379-a08844e580b8" />
+
+* For the inverter gate driver section, two types of driver circuits are utilized: a low- side and a high-side driver circuit. This arrangement is necessary due to the gate
+voltages being referenced to different sources. While the low-side MOSFET source is the secondary ground, the high-side MOSFET source is on the grid.
+* In the low-side driver circuit, a UCC27324 Low-Side MOSFET driver IC is employed to enhance the efficiency of switching the low-side MOSFETs by providing high peak current. This IC takes the PWM signals for the low-side MOSFETs, INV_PWM_1L and INV_PWM_2L, and outputs them on INV_DRV_1L and INV_DRV_2L.
+* Pull-down resistors (R1 and R2) prevent the inputs to the UCC27324 from floating, while diodes (D3 and D4) clamp the output voltage to ground in the event of a negative voltage appearing on the outputs of U1 due to undershooting or ringing.
+* Resistors (R3-4) and diodes (D1-2) are employed to decrease the turn-off time of the low-side MOSFETs. For the high-side driver circuit, due to the reference source voltage of the high-side MOSFET being different from the secondary ground, an isolation IC and a MOSFET gate driver IC are utilized.
+* This isolation is essential to keep VGS high enough with respect to the source of the high-side MOSFET to drive it effectively. The ISO7420D isolation IC maintains separation between the secondary ground and the source of the MOSFETs, while the UCC27531 MOSFET driver IC efficiently drives the MOSFETs with high peak current.
+* The circuit is designed to drive one of the high-side MOSFETs. A separate, but identical circuit, is employed to drive the other high-side MOSFET. Resistors (R5 and R6) are used to dampen oscillations on the MOSFET, and capacitors (C1-3) act as decoupling capacitors to filter noise.
+* Revisions were made to the circuit design due to issues discovered with the original design. Primarily, the footprint for the UCC27531 component on the PCB was incorrect, and even when corrected, the circuit was not providing a PWM output.
+* To address these issues, a new design based on the bootstrap driver topology was implemented instead of the isolated driver topology of the original design.Two UCC27710 ICs are now employed, one for each high-low side MOSFET pair, driving the MOSFETs in isolation.
+
+### Grid Voltage Sense:
+<img width="917" height="560" alt="image" src="https://github.com/user-attachments/assets/4d59d13c-1d34-4938-a278-c5c21ad1d21b" />
+
+* To measure the grid voltage, the DC link voltage measurement circuit was slightly modified and reused. The significant change made to the grid voltage measurement
+circuit compared to the DC link voltage measurement is the adjustment of the Rf value for the voltage divider, which is set to 7.5K (compared to 15K for the DC link voltage).
+* This adjustment is necessary because the grid voltage has both positive and negative values, being an AC source. For the non-inverting input, since the grid voltage is an AC voltage, a 1.65V reference voltage (1_65V_REF) is utilized instead of GND_SEC to bias the input to the op-amp to 1.65V. Consequently, the output voltage of the op-amp falls between 0.86V to 2.44V.
+* An important aspect of the grid voltage sensing circuitry is the zero-cross detection system, based on the LMV7235M5. This system toggles a digital input pin on the microcontroller when the grid voltage crosses the zero point. This action can trigger an interrupt on the microcontroller, enabling precise measurement of the frequency and phase of the grid AC voltage.
+* This synchronization ensures that the output of the inverter remains in sync with the grid voltage, a critical requirement for a system capable of feeding power back into the grid. The comparator is configured in an inverting configuration with hysteresis.
+* High and low threshold voltages of 1.6582V and 1.6418V, respectively, are set using resistors R13 and R14. Resistor R12 serves as input protection to limit current in the case of overvoltage, while resistor R16 acts as a pull-up resistor, and R15 provides input protection for the MCU.
+* Capacitor C4 serves as a decoupling capacitor for filtering purposes, ensuring stable operation of the circuit.
+
+* Main Component and Mouser URLs:
+* IC5-->> LMV7235M5_NOPB -->> Analog Comparators Comp-45Ns 65Ua RRIO -->> https://www.mouser.in/ProductDetail/Texas-Instruments/LMV7235M5-NOPB?qs=7lkVKPoqpbZ6nyQzBLSUCw%3D%3D
+* IC4-->> OPA2171AIDR -->> Operational Amplifiers - Op Amps 36V,Low Pwr,RRO,Gen Purp Op Amp -->> https://www.mouser.in/ProductDetail/TexasInstruments/OPA2171AIDR?qs=dIQyq4nUG7Hi9afX%252B6ZUXg%3D%3D
+* D8 & D9-->> BAT54S-->> Schottky Diodes & Rectifiers SOT23 0.2A 30V Schottky Dblr -->> https://www.mouser.in/ProductDetail/Rectron/BAT54S?qs=7pEAo90IqNGRiqD7TkybWA%3D%3D
+
+### Grid Current Sense:
+<img width="909" height="537" alt="image" src="https://github.com/user-attachments/assets/055811a8-48e1-4f77-8c0e-624678d01b2d" />
+
+* To measure the amount of current going into the grid, the microinverter utilizes an LTSR6-NP current transducer. This component outputs a voltage proportional
+to the current passing through the transducer on VCS_IOUT.
+* When there is zero current on the grid, the transducer outputs a voltage of 1.65V, using IGRID_SEN_REF as the zero-current voltage, with the voltage varying by 104.16mV/A. It was connected using one of the recommended configurations in the part’s datasheet.
+* R1 is employed to limit current in the case of an overvoltage condition, and Capacitor C1 acts as a decoupling capacitor to limit noise.
+* The op-amp circuit utilized to scale the output voltage of the current transducer to within the range of the microcontroller ADC. The first op-amp circuit removes the 1.65V bias introduced by the current transducer, while the second op-amp circuit scales the voltage to fit within the full range of the ADC.
+* The first op-amp circuit, , uses Rf = Rin = 24.9kΩ, with V2 = 1.65V and V1 = 1.34V-1.96V. Therefore, the expected output at VCS_TPT_INTMD is between 1.34V to 1.96V. For the second op- amp circuit, with Rf = 3.32kΩ, Rin = 1.47kΩ, V2 = 1.34V to 1.96V, and V1 = 0V, resulting in an output voltage ranging from 3.03V to 4.43V
+* The op-amp circuit serves to adjust the output voltage of the current transducer to fall within the range of the microcontroller's ADC. The first op-amp circuit functions to eliminate the 1.65V bias introduced by the current transducer.
+* Subsequently, the second op-amp circuit scales the voltage to fit within the full range of the ADC.In the first op-amp circuit, Rf = Rin = 24.9kΩ, with V2 = 1.65V and V1 = 1.34V - 1.96V. Consequently, the expected output at VCS_TPT_INTMD is anticipated to be within the range of 1.34V to 1.96V. For the second op-amp circuit, Rf = 3.32kΩ, Rin = 1.47kΩ, V2 = 1.34V to 1.96V, and V1 = 0V. As a result, the output voltage is in range between 3.03V and 4.43V
+
+* Main Component and Mouser URLs:
+* IC6-->> S22P006S05 -->> Board Mount Current Sensors -->> https://www.mouser.in/ProductDetail/Tamura/S22P006S05?qs=yx8T92u%2FELqaN3yw9PfAuw%3D%3D
+* IC7 & IC8-->> OPA2171AIDR -->> Operational Amplifiers - Op Amps 36V,Low Pwr,RRO,Gen Purp Op Amp -->> https://www.mouser.in/ProductDetail/TexasInstruments/OPA2171AIDR?qs=dIQyq4nUG7Hi9afX%252B6ZUXg%3D%3D
+* D10 -->> BAT54S-->> Schottky Diodes & Rectifiers SOT23 0.2A 30V Schottky -->> https://www.mouser.in/ProductDetail/Rectron/BAT54S?qs=7pEAo90IqNGRiqD7TkybWA%3D%3D
+
+### Microcontroller & Display:
+<img width="933" height="593" alt="image" src="https://github.com/user-attachments/assets/a1810d7c-07b7-4271-b058-51a5c69e85e9" />
+
+* The microcontroller serves as the central control unit for the microinverter. It collects measurements from the voltage and current measurement blocks and utilizes them to execute an MPPT algorithm, enabling adjustments to be made to the microinverter's operation.
+* Subsequently, the microcontroller generates PWM signals to control the Flyback and inverter gated driver blocks. For the microcontroller, a FT2232HQ is employed. Several factors contributed to the selection of this microcontroller.
+* Simulink offers a package for generating CCS projects from Simulink blocks, streamlining the firmware development process for the microinverter and enhancing accessibility for future development efforts.
+* The FT2232HQ boosts sufficient digital I/O to support the microinverter and additional peripherals, such as USB connectivity to a laptop for external MPPT execution. This robust feature set makes it well-suited for controlling the complex operations of the microinverter.
+* Display: The microinverter is furnished with a display to facilitate the quick viewing of crucial data such as the PV module voltage, current, and power, along with the
+current operating mode. For this purpose, a 128x64 pixel monochrome dot matrix LCD has been chosen as the display unit.
+* This selection offers several advantages: the display's capacity to present large amounts of information simultaneously and its flexibility surpass those of other common display types such as seven-segment LED displays.
+* Moreover, this display, accompanied by four push-button switches in close proximity, enables the implementation of a simple graphical user interface (GUI). With this interface, various parameters and operating modes can be adjusted without the need to reprogram the microcontroller.
+* The schematic for implementing this 128x64 pixel display typically shows the parallel data interface.
+* An additional printed circuit board was designed and fabricated to accommodate the LCD and accompanying ATMEGA328P microcontroller on the main microinverter PCB, replacing the original dot matrix LCD. This adapter board features a 6-pin ICSP header, enabling the programming of the ATMega328P microcontroller. A simple user interface was implemented using the display and the four push buttons, allowing for the operating mode of the inverter and the displayed information to be changed on the fly.
+* Every screen capable of being displayed on the LCD is predefined in the ATMega328P code. The main MCU sends each piece of data to be displayed on the LCD, as well as control state information, as a separate packet over the I2C bus to the interface MCU.
+* Main Component and Mouser URLs:
+* IC10 -->> ATMEGA328P-AUR -->> 8-bit Microcontrollers - MCU AVR 32K FLSH 2K SRAM 1KB EE-20MHz IND -->> https://www.mouser.in/ProductDetail/Microchip-Technology/ATMEGA328P-AUR?qs=6Dg1WZIWLC4z32PdFaWSBQ%3D%3D
+* DS1 -->> NHD-12864WG-BTGH-T#N -->>LCD Graphic Display Modules & Accessories STN-Gray 75.0 x 52.7 -->> https://www.mouser.in/ProductDetail/Newhaven-Display/NHD-12864WG-BTGH-TN?qs=Vb5qD4CGh4kfaGE2BVNHqg%3D%3D
+* IC11 -->> FT2232HQ-REEL -->> USB Interface IC USB HS to Dual UART/FIFO/SPI/JTAG/I2C -->> https://www.mouser.in/ProductDetail/FTDI/FT2232HQ-REEL?qs=D1%2FPMqvA103kEu75rXS7PA%3D%3D
+* J3-->> 2480843-1 -->> USB Connectors USB Type-C Charge-Only Receptacle,6 Pin Top Mount -->> https://www.mouser.in/ProductDetail/TE-Connectivity/2480843-1?s=dbcCsuKDzFVHhjcKyfNgvQ%3D%3D
+* H1_HEADER-->> M40-3100345R --> Headers & Wire Housings 2X3P SMT SOCKET 1.00MM DIL -->> https://www.mouser.in/ProductDetail/Harwin/M40-3100345R?qs=aU5qWCfurfx62vxBHN8Brw%3D%3D
+
+### Power Supply Units(PSUs):
+<img width="962" height="584" alt="image" src="https://github.com/user-attachments/assets/6456aa56-692f-49b7-8b11-b88ddddbbe85" />
+
+* To provide power to the microinverter, multiple circuits are employed to generate reference voltages and power supplies. For the primary side components, the circuit is utilized. To supply a +12V primary voltage, a slide switch is incorporated to allow for switching between +12V from the PV module or +12V from an external power supply.
+* Additionally, to provide a +5V primary supply, a PTH08080WAH switching voltage regulator is employed to step down +12V to +5V . Resistor R2 is chosen to be 330Ω to ensure the output voltage is precisely 5V. Capacitors C6-7 are included to ensure the input capacitance is at least 100μF, and C10 serves as a decoupling capacitor on the output to filter noise.
+* To power the secondary side components, the circuit depicted is employed. The +12V secondary and +5V secondary supplies are provided in the same manner as those utilized for the primary supplies. For the +3.3V secondary supply, a TPS79533DCQR linear regulator is utilized.
+* Capacitors C3-C5 serve as decoupling capacitors to filter noise. To provide a 2.5V reference, a TL431AIDBZR shunt regulator is employed. Resistor R3 is calculated to be 510Ω to ensure 1.5mA can be used by the 2.5V reference. For the 1.65V reference, a voltage divider is employed with the 2.5V reference.
+
+* Main Components & Mouser URLs:
+* S1 -->> MHS12304 -->> Slide Switches SPDT SLIDE SWITCH -->> https://www.mouser.in/ProductDetail/TE-Connectivity-/MHS12304?qs=x%2FgbKjZ2T%2FMAxqlZIkgJKQ%3D%3D
+* PS2,PS3 -->> PTH08080WAH -->> Non-Isolated DC/DC Converters 2.25A Wide Input/ Out Adj Mini Pwr Mdl -->> https://www.mouser.in/ProductDetail/TexasInstruments/PTH08080WAH?qs=sSOk4GDDv7yMRTUePt%252BUgQ%3D%3D IC1 -->> TPS79533DCQR -->> LDO Voltage Regulators High PSRR Fast RF High-Enable 500mA -->> https://www.mouser.in/ProductDetail/TexasInstruments/TPS79533DCQR?qs=0O%2FZFlpUpJUYg6EZsYtbQw%3D%3D
+U2 -->> TL431AIDBZR -->> Voltage References Adjustable Precision Shunt Regulator -->> https://www.mouser.in/ProductDetail/TexasInstruments/TL431AIDBZR?qs=odmYgEirbww5TG7DvnasYA%3D%3D
+
+## PCB Board Design And Layout Room:
+
+* While Designing the PCB we have use size of PCB with Width 172.085mm and Height of 115.57mm, and the track width was0.254mm
+* Also we had validated the project Schematic before moving to Layout and we removed all schematic validation error also.
+* And the DRC Violation were coming zero after using altium rules provided by Prof.Kurian
+* We had done polygon poured on both sides of PCB.
+
+## Layout Rooms for Each Blocks:
+<img width="883" height="437" alt="image" src="https://github.com/user-attachments/assets/1b44d7d8-ef6c-43f7-abd7-1e976fbd9c46" />
+
+## Zero DRC Violation:
+<img width="1364" height="721" alt="image" src="https://github.com/user-attachments/assets/f693d9f2-871c-42a3-a3bf-6f905d59c74f" />
+
+## Polygon Pour on Top Layer:
+<img width="814" height="549" alt="image" src="https://github.com/user-attachments/assets/aecf00c5-95bc-46c8-bfaa-ca81a60e3a98" />
+
+## Polygon Pour on Bottom Layer:
+<img width="816" height="549" alt="image" src="https://github.com/user-attachments/assets/36770e79-93bd-4474-ad4e-58220dbf97ba" />
+
+## PCB 3D Design:
+<img width="850" height="579" alt="image" src="https://github.com/user-attachments/assets/e981fca2-3034-42f8-b120-35ca505caa21" />
+
+## BOM Excel Sheet:
+
+
+## REFERENCES:
+
+* https://www.mouser.in/
+* https://core.ac.uk/download/pdf/288020267.pdf
+* https://www.digikey.in/en/products
+* https://www.vishay.com/
+* https://www.infineon.com/cms/en/product/
+* https://ieeexplore.ieee.org/document/9595015
