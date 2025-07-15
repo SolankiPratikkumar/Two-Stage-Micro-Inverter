@@ -73,3 +73,43 @@ output by pins VS1 and FLYBACK_DRV_1A for DC-DC Converter.
 * Measures grid current using input pins HBRIDGE2 and AC_N_OUT and for the circuit operation we need to use 5V and 3.3V secondary from PSU. And the output generated at pin IGRID_SEN which is given to microcontroller and display to produce present value of AC Grid.
 ### Microcontroller & Display : 
 * It is the main control block of the system to sense the DC inputs of PV,DC-DC Converter, DC-AC Inverter, Grid AC Voltage and current values and produce the Display Reading and also to produce the ouput PWM signal for Flyback Gate driver circuits and Inverter Gate driver Circuit using internally USB Port so that by MATLAB or other software we can run the MPPT Algorithm software as there is processing IC FT2232HQ-REEL is used along with ATMEGA 328P IC which will produce the Duty cycle and by processing through I2C lines of SCL,SDA,SCK we would get the readings on Display of all the inputs and outputs.
+
+## Schematics Level-2 Microinverter:
+
+### PV Module:
+<img width="937" height="545" alt="image" src="https://github.com/user-attachments/assets/47c42741-45c7-476b-8a21-d3cc0e916e11" />
+
+* The Solar Sunlight generated produces the DC Voltage from each solar module which is connected to the PV+ and PV- pin of this circuits. The voltage generated is directly proportional to irradiance ,intensity and reflection absorbed by the solar plates.
+* We are assuming here the fact that each Solar module can produce 180W of power supply we add the series and parallel plates according to the our need.
+
+### DC-DC Converter:
+
+<img width="936" height="575" alt="image" src="https://github.com/user-attachments/assets/f1d7f5c2-58c9-4c86-be49-f28ab4bfe94d" />
+
+* On the primary side of the switching converter, IRFB4310 MOSFETs are utilized due to their advantageous characteristics, including a low R_DS-On (5.6mΩ), high V_DS (100V), and a current rating of 130A. These specifications are crucial for enhancing the efficiency of the DC/DC converter, facilitating the passage of up to 200W of power through this section.
+* The NA5919-AL transformers employed are 1:4 flyback transformers, is chosen to elevate the voltage output from the PV module. Transitioning to the secondary side of the DC/DC Converter, a voltage doubler circuit and the DC link capacitor are prominent features.
+* The voltage doubler circuit comprises a 2μF capacitor, chosen based on previous simulations, along with two MSRF1560G power rectifier diodes. These diodes boast a low forward voltage (1.5V), coupled with high voltage (600V) and current (15A) ratings, ensuring efficient energy conversion and robust performance.
+* An indicator neon bulb (LED1) is incorporated on the secondary side to provide a visual indication of voltage presence, typically over approximately 60V on the DC link capacitors. A resistor value of R5 is 150KΩ was selected based on the specifications provided in the datasheet for the neon indicator bulb.
+* Furthermore, FUSE1 plays a pivotal role in isolating the converter section from the inverter section when independent testing of the converter section is required. This fuse acts as a protective measure, preventing potential damage to the converter or inverter components and ensuring safe operation during testing procedures.
+
+* Main Components & Mouser URLs:
+  
+T1 & T2-->> Audio Transformers / Signal Transformers DA2032 Cap Charger For Linear:
+LT3750-->>> https://www.mouser.in/ProductDetail/Coilcraft/DA2032- ALD?qs=ZYnrCdKdyefv4mcPD%252BT0WQ%3D%3D
+J1-->Fixed Terminal Blocks 3 POS SIDE ENT 3.5MM-->>
+https://www.mouser.in/ProductDetail/TE-Connectivity/1776275- 3?qs=vnwGVgFuQiaG2mifqnUIBA%3D%3D
+
+### DC-AC Inverter:
+<img width="1028" height="562" alt="image" src="https://github.com/user-attachments/assets/db78995b-36bc-4182-917b-21cea243cbd7" />
+
+* The DC/AC inverter section of the microinverter is comprised of two essential components: an H-Bridge and an LCL filter. This section plays a pivotal role in converting the direct current (DC) output from the DC/DC converter into alternating current (AC) suitable for powering electrical devices.
+* At the core of the H-Bridge circuit are SIHP25N40D Power MOSFETs, meticulously chosen for their robust characteristics, including a high drain-source voltage (V_DS) rating of 450V and a significant drain current (I_DS) capacity of 24A.
+* These MOSFETs facilitate efficient switching operations within the H-Bridge configuration, ensuring seamless conversion of DC to AC power.
+* In conjunction with the H-Bridge, the LCL filter (comprised of inductors L1 and L2, resistor R6, and capacitor C6) serves to refine the output waveform and mitigate harmonic distortions.
+* These components are meticulously selected and precisely tuned to optimize the performance of the microinverter, enhancing its overall efficiency and reliability. The utilization of the SIHP25N40D MOSFETs in the H-Bridge, coupled with the carefully designed LCL filter, underscores the meticulous engineering and attention to detail employed in the design of the microinverter.
+* Together, these components work harmoniously to ensure the seamless conversion of DC power from the solar panels into clean and reliable AC power for residential or commercial applications.
+* Main Components & Mouser URLs:
+  
+Q3,Q4,Q5,Q6 Transistors -->>> SIHP25N40D-GE3 -->> MOSFET 400V Vds 30V Vgs TO-220AB
+-->> https://www.mouser.in/ProductDetail/Vishay-Semiconductors/SIHP25N40D- GE3?qs=CJFgc%252B3p06hr07bri6UKRA%3D%3D
+
