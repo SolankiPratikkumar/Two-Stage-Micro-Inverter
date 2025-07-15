@@ -92,8 +92,7 @@ output by pins VS1 and FLYBACK_DRV_1A for DC-DC Converter.
 * Furthermore, FUSE1 plays a pivotal role in isolating the converter section from the inverter section when independent testing of the converter section is required. This fuse acts as a protective measure, preventing potential damage to the converter or inverter components and ensuring safe operation during testing procedures.
 
 * Main Components & Mouser URLs:
-* T1 & T2-->> Audio Transformers/Signal Transformers DA2032 Cap Charger For Linear
-* LT3750-->>> https://www.mouser.in/ProductDetail/Coilcraft/DA2032-ALD?qs=ZYnrCdKdyefv4mcPD%252BT0WQ%3D%3D
+* T1 & T2-->> Audio Transformers/Signal Transformers DA2032 Cap Charger For Linear LT3750-->>> https://www.mouser.in/ProductDetail/Coilcraft/DA2032-ALD?qs=ZYnrCdKdyefv4mcPD%252BT0WQ%3D%3D
 * J1-->Fixed Terminal Blocks 3 POS SIDE ENT 3.5MM-->>https://www.mouser.in/ProductDetail/TE-Connectivity/1776275-3?qs=vnwGVgFuQiaG2mifqnUIBA%3D%3D
 
 ### DC-AC Inverter:
