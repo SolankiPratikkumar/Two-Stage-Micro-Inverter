@@ -274,7 +274,8 @@ U2 -->> TL431AIDBZR -->> Voltage References Adjustable Precision Shunt Regulator
 <img width="850" height="579" alt="image" src="https://github.com/user-attachments/assets/e981fca2-3034-42f8-b120-35ca505caa21" />
 
 ## BOM Excel Sheet:
-
+<img width="1137" height="567" alt="image" src="https://github.com/user-attachments/assets/7f7e470c-4d7f-499c-a42b-39048a3c8ea9" />
+<img width="1140" height="545" alt="image" src="https://github.com/user-attachments/assets/1aa25c84-b30b-49e0-b47c-b4946731bba5" />
 
 ## REFERENCES:
 
