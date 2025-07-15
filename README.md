@@ -119,10 +119,10 @@ output by pins VS1 and FLYBACK_DRV_1A for DC-DC Converter.
 * This MOSFET permits current flow from the secondary +12V rail through the relay coil, through the MOSFET, and into the ground. To safeguard the MOSFET from potential damage caused by voltage spikes resulting from the inductive load of the relay coil, a freewheeling diode, D3, has been incorporated.
 
 * Main Components and Mouser URLs:
-* U1-->> ST2-DC12V-F -->> General Purpose Relays 8A 12VDC DPST NON-LATCHING PCB -->> https://www.mouser.in/ProductDetail/Panasonic-Industrial-Devices/ST2- DC12V-F?qs=sEN%2FkO1EG6Y9qlX1q11jhg%3D%3D
-* J2-->> 1776275-3 -->> Fixed Terminal Blocks 3 POS SIDE ENT 3.5MM -->> https://www.mouser.in/ProductDetail/TE-Connectivity/1776275- 3?qs=vnwGVgFuQiaG2mifqnUIBA%3D%3D
+* U1-->> ST2-DC12V-F -->> General Purpose Relays 8A 12VDC DPST NON-LATCHING PCB -->> https://www.mouser.in/ProductDetail/Panasonic-Industrial-Devices/ST2-DC12V-F?qs=sEN%2FkO1EG6Y9qlX1q11jhg%3D%3D
+* J2-->> 1776275-3 -->> Fixed Terminal Blocks 3 POS SIDE ENT 3.5MM -->> https://www.mouser.in/ProductDetail/TE-Connectivity/1776275-3?qs=vnwGVgFuQiaG2mifqnUIBA%3D%3D
 * D3-->> BAV70W -->> Diodes - General Purpose, Power, Switching Small Signal Diode, SOT-323, 100V, 0.17A, 150C -->>https://www.mouser.in/ProductDetail/Diotec-Semiconductor/BAV70W?qs=OlC7AqGiEDmR5SyZ9ehqwA%3D%3D
-* Q2-->>2N7002-->> MOSFET N-CHANNEL 60V 115mA -->> https://www.mouser.in/ProductDetail/onsemi- Fairchild/2N7002?qs=0dwsXDNhqlz66WJJhrTFjQ%3D%3D
+* Q2-->>2N7002-->> MOSFET N-CHANNEL 60V 115mA -->> https://www.mouser.in/ProductDetail/onsemi-Fairchild/2N7002?qs=0dwsXDNhqlz66WJJhrTFjQ%3D%3D
 
 ### PV Voltage Sense:
 <img width="1029" height="566" alt="image" src="https://github.com/user-attachments/assets/f801f593-f30c-4b66-a129-7c007a87812c" />
@@ -133,6 +133,7 @@ output by pins VS1 and FLYBACK_DRV_1A for DC-DC Converter.
 * To protect the microcontroller, a Schottky diode array (D1) is employed, preventing VPV_SEN from exceeding the 0V to 3.3V range of the microcontroller's ADC.
 * Furthermore, additional capacitors have been strategically placed throughout the circuit to mitigate noise occurring on the amplifier's supply rails and inputs. Two test points, IN_VPVSEN and OUT_VPVSEN, are included to measure the voltage on each side of the amplifier.
 * Resistor R2 serves to limit the current flowing to the MCU in the event of an overvoltage condition on the voltage sense circuit. Capacitors C1-4 act as decoupling capacitors, effectively reducing noise in the circuit.
+  
 * Main Components and Mouser URLs:
 * U4-->>AMC1200SDUBR-->>Isolation Amplifiers 4kV peak Iso Amp-->> https://www.mouser.in/ProductDetail/TexasInstruments/AMC1200SDUBR?qs=Nxfnlnd%252BiAcMKGpoVxsKlg%3D%3D
 * D4-->> BAT54S-->> Schottky Diodes & Rectifiers SOT23 0.2A 30V Schottky Dblr -->> https://www.mouser.in/ProductDetail/Rectron/BAT54S?qs=7pEAo90IqNGRiqD7TkybWA%3D%3D
@@ -177,6 +178,11 @@ voltages being referenced to different sources. While the low-side MOSFET source
 * The circuit is designed to drive one of the high-side MOSFETs. A separate, but identical circuit, is employed to drive the other high-side MOSFET. Resistors (R5 and R6) are used to dampen oscillations on the MOSFET, and capacitors (C1-3) act as decoupling capacitors to filter noise.
 * Revisions were made to the circuit design due to issues discovered with the original design. Primarily, the footprint for the UCC27531 component on the PCB was incorrect, and even when corrected, the circuit was not providing a PWM output.
 * To address these issues, a new design based on the bootstrap driver topology was implemented instead of the isolated driver topology of the original design.Two UCC27710 ICs are now employed, one for each high-low side MOSFET pair, driving the MOSFETs in isolation.
+
+* Main Component and Mouser URLs:
+* PS1-->> UCC27710D -->> Gate Drivers 0.5-A/1.0-A, 620-V half bridge gate driver with interlock 8-SOIC -40 to 125 -->> https://www.mouser.in/ProductDetail/TexasInstruments/UCC27710D?qs=BZBei1rCqCD2w93rIJ6Lcg%3D%3D
+* D4-->> MURA160T3G -->> Rectifiers 600V 1A UltraFast -->> https://www.mouser.in/ProductDetail/onsemi/MURA160T3G?qs=Gev%252BmEvV0iajoLiVF%252B%2Fg%252Bw%3D%3D
+* D5 & D6 -->> MSS1P3L-M3_89A -->> Schottky Diodes & Rectifiers 1.0 Amp 30 Volt-->> https://www.mouser.in/ProductDetail/Vishay-General-Semiconductor/MSS1P3L-M3-89A?qs=fLSHF8TigmVtEvJyLcOX%252BQ%3D%3D
 
 ### Grid Voltage Sense:
 <img width="917" height="560" alt="image" src="https://github.com/user-attachments/assets/4d59d13c-1d34-4938-a278-c5c21ad1d21b" />
@@ -242,8 +248,8 @@ current operating mode. For this purpose, a 128x64 pixel monochrome dot matrix L
 
 * Main Components & Mouser URLs:
 * S1 -->> MHS12304 -->> Slide Switches SPDT SLIDE SWITCH -->> https://www.mouser.in/ProductDetail/TE-Connectivity-/MHS12304?qs=x%2FgbKjZ2T%2FMAxqlZIkgJKQ%3D%3D
-* PS2,PS3 -->> PTH08080WAH -->> Non-Isolated DC/DC Converters 2.25A Wide Input/ Out Adj Mini Pwr Mdl -->> https://www.mouser.in/ProductDetail/TexasInstruments/PTH08080WAH?qs=sSOk4GDDv7yMRTUePt%252BUgQ%3D%3D IC1 -->> TPS79533DCQR -->> LDO Voltage Regulators High PSRR Fast RF High-Enable 500mA -->> https://www.mouser.in/ProductDetail/TexasInstruments/TPS79533DCQR?qs=0O%2FZFlpUpJUYg6EZsYtbQw%3D%3D
-U2 -->> TL431AIDBZR -->> Voltage References Adjustable Precision Shunt Regulator -->> https://www.mouser.in/ProductDetail/TexasInstruments/TL431AIDBZR?qs=odmYgEirbww5TG7DvnasYA%3D%3D
+* PS2,PS3 -->> PTH08080WAH -->> Non-Isolated DC/DC Converters 2.25A Wide Input/ Out Adj Mini Pwr Mdl -->> https://www.mouser.in/ProductDetail/TexasInstruments/PTH08080WAH?qs=sSOk4GDDv7yMRTUePt%252BUgQ%3D%3D IC1 -->> TPS79533DCQR -->> LDO Voltage Regulators High PSRR Fast RF High-Enable 500mA -->> https://www.mouser.in/ProductDetail/TexasInstruments/TPS79533DCQR?qs=0O%2FZFlpUpJUYg6EZsYtbQw%3D%3D
+U2 -->> TL431AIDBZR -->> Voltage References Adjustable Precision Shunt Regulator -->> https://www.mouser.in/ProductDetail/TexasInstruments/TL431AIDBZR?qs=odmYgEirbww5TG7DvnasYA%3D%3D
 
 ## PCB Board Design And Layout Room:
 
