@@ -94,10 +94,9 @@ output by pins VS1 and FLYBACK_DRV_1A for DC-DC Converter.
 
 * Main Components & Mouser URLs:
   
-T1 & T2-->> Audio Transformers / Signal Transformers DA2032 Cap Charger For Linear:
-LT3750-->>> https://www.mouser.in/ProductDetail/Coilcraft/DA2032- ALD?qs=ZYnrCdKdyefv4mcPD%252BT0WQ%3D%3D
-J1-->Fixed Terminal Blocks 3 POS SIDE ENT 3.5MM-->>
-https://www.mouser.in/ProductDetail/TE-Connectivity/1776275- 3?qs=vnwGVgFuQiaG2mifqnUIBA%3D%3D
+* T1 & T2-->> Audio Transformers/Signal Transformers DA2032 Cap Charger For Linear
+* LT3750-->>> https://www.mouser.in/ProductDetail/Coilcraft/DA2032-ALD?qs=ZYnrCdKdyefv4mcPD%252BT0WQ%3D%3D
+* J1-->Fixed Terminal Blocks 3 POS SIDE ENT 3.5MM-->>https://www.mouser.in/ProductDetail/TE-Connectivity/1776275-3?qs=vnwGVgFuQiaG2mifqnUIBA%3D%3D
 
 ### DC-AC Inverter:
 <img width="1028" height="562" alt="image" src="https://github.com/user-attachments/assets/db78995b-36bc-4182-917b-21cea243cbd7" />
@@ -110,6 +109,5 @@ https://www.mouser.in/ProductDetail/TE-Connectivity/1776275- 3?qs=vnwGVgFuQiaG2m
 * Together, these components work harmoniously to ensure the seamless conversion of DC power from the solar panels into clean and reliable AC power for residential or commercial applications.
 * Main Components & Mouser URLs:
   
-Q3,Q4,Q5,Q6 Transistors -->>> SIHP25N40D-GE3 -->> MOSFET 400V Vds 30V Vgs TO-220AB
--->> https://www.mouser.in/ProductDetail/Vishay-Semiconductors/SIHP25N40D- GE3?qs=CJFgc%252B3p06hr07bri6UKRA%3D%3D
+* Q3,Q4,Q5,Q6 Transistors -->>> SIHP25N40D-GE3 -->> MOSFET 400V Vds 30V Vgs TO-220AB-->> https://www.mouser.in/ProductDetail/Vishay-Semiconductors/SIHP25N40D-GE3?qs=CJFgc%252B3p06hr07bri6UKRA%3D%3D
 
